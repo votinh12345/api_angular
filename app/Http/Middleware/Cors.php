@@ -15,12 +15,10 @@ class Cors
      */
     public function handle($request, Closure $next)
     {
-        if ($request->isMethod('options')) {
-            return response('', 200)
-              ->header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE')
-              ->header('Access-Control-Allow-Headers', 'accept, content-type, 
-                x-xsrf-token, x-csrf-token'); // Add any required headers here
-        }
-        return $next($request);
+        return $next($request)->header('Access-Control-Allow-Origin' , 'http://demo-angular.local')
+            ->header('Access-Control-Allow-Credentials', 'true')
+            ->header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE')
+            ->header('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization, X-Requested-With')
+            ->header('Access-Control-Max-Age', '28800');
     }
 }
