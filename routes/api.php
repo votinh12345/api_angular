@@ -17,5 +17,6 @@ use Illuminate\Http\Request;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
-Route::resource('plan', 'PlanController');
+Route::get('plan', 'PlanController@index');
+Route::get('plan/detail/{planCode}', 'PlanController@detail');
 Route::post('staff/login', 'StaffController@login');

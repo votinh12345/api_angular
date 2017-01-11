@@ -25,4 +25,33 @@ class PlanController extends Controller
         }
         return response()->json($listPlan);
     }
+    
+    public function detail($planCode){
+        $planMst = new PlanMst();
+        $reason = [];
+        $data = $planMst->getDetai($planCode);
+        if (count($data) > 0) {
+            $reason = [
+                'result' => 1,
+                'data' => [
+                    'plan_code' => $data->plan_code,
+                    'plan_name' => $data->plan_name,
+                    'plan_desc' => $data->plan_desc,
+                    'plan_class' => $data->plan_class,
+                    'plan_initial_dis' => $data->plan_initial_dis,
+                    'plan_start_date' => $data->plan_start_date,
+                    'plan_end_date' => $data->plan_end_date,
+                    'plan_type' => $data->plan_type,
+                    'plan_last_upd_user' => $data->plan_last_upd_user,
+                    'plan_last_upd_date' => $data->plan_last_upd_date,
+                ]
+            ];
+        } else {
+            $reason = [
+                'result' => 0,
+                'message' => 'Not found data'
+            ];
+        }
+        return response()->json($reason);
+    }
 }
