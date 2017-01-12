@@ -19,4 +19,5 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:api');
 Route::get('plan', 'PlanController@index');
 Route::get('plan/detail/{planCode}', 'PlanController@detail');
+Route::post('plan/delete', 'PlanController@delete');
 Route::post('staff/login', 'StaffController@login');

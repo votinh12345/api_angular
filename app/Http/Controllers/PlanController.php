@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request;
 use App\Models\PlanMst;
 
 class PlanController extends Controller
@@ -52,6 +52,35 @@ class PlanController extends Controller
                 'message' => 'Not found data'
             ];
         }
+        return response()->json($reason);
+    }
+    
+    
+    public function delete(){
+        $reason = [];
+        $data = Request::all();
+        $data = json_decode($data['dataPost']);
+        //check param
+        if (!isset($data)) {
+            $reason = [
+                'result' => 0,
+                'message' => 'Vui lòng truyền plan code!'
+            ];
+        } else {
+            try {
+                $planMst = new PlanMst();
+                $plan = $planMst::where('plan_code', '=', $data)->delete();
+                $reason = [
+                    'result' => 1
+                ];
+            } catch (Exception $ex) {
+                 $reason = [
+                    'result' => 0,
+                    'message' => $ex->getMessage ()
+                ];
+            }
+        }
+        
         return response()->json($reason);
     }
 }
