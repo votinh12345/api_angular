@@ -21,3 +21,6 @@ Route::get('plan', 'PlanController@index');
 Route::get('plan/detail/{planCode}', 'PlanController@detail');
 Route::post('plan/delete', 'PlanController@delete');
 Route::post('staff/login', 'StaffController@login');
+
+//option
+Route::get('option', 'OptionController@index');
