@@ -3,37 +3,31 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Request;
-use App\Models\OptMst;
+use App\Models\GoodsMst;
+use App\Models\GoodsPlan;
 
-class OptionController extends Controller
+class ProductController extends Controller
 {
     //
     
     public function index()
     {
         $reason = [];
-        $listOption = [];
-        $optList = OptMst::all();
-        if (count($optList) > 0) {
-            foreach ($optList as $key => $value) {
-                $listOption[] = [
-                    'opt_packcode' => $value->opt_packcode,
-                    'opt_packname' => $value->opt_packname,
-                    'opt_packdesc' => $value->opt_packdesc,
-                    'opt_code' => $value->opt_code,
-                    'opt_name' => $value->opt_name,
-                    'opt_desc' => $value->opt_desc,
-                    'opt_class' => $value->opt_class,
-                    'opt_flag' => $value->opt_flag,
-                    'opt_start_date' => $value->opt_start_date,
-                    'opt_end_date' => $value->opt_end_date,
-                    'last_upd_user' => $value->last_upd_user,
+        $listProduct = [];
+        $productList = GoodsMst::all();
+        $modelGoodsPlan = new GoodsPlan();
+        if (count($productList) > 0) {
+            foreach ($productList as $key => $value) {
+                $listProduct[] = [
+                    'goods_jan' => $value->goods_jan,
+                    'goods_name' => $value->goods_name,
+                    'plan' => $modelGoodsPlan->getListPlan($value->goods_jan),
                     'last_upd_date' => $value->last_upd_date
                 ];
             }
             $reason = [
                 'result' => 1,
-                'data' => $listOption
+                'data' => $listProduct
             ];
         } else {
             $reason = [
@@ -45,26 +39,29 @@ class OptionController extends Controller
         return response()->json($reason);
     }
     
-    public function detail($optPackcode, $optCode){
-        $optMst = new OptMst();
+    public function detail($goodsJan){
+        $goodsMst = new GoodsMst();
+        $modelGoodsPlan = new GoodsPlan();
         $reason = [];
-        $data = $optMst->getDetai($optPackcode, $optCode);
+        $data = $goodsMst->getDetai($goodsJan);
         if (count($data) > 0) {
             $reason = [
                 'result' => 1,
                 'data' => [
-                    'opt_packcode' => $data->opt_packcode,
-                    'opt_packname' => $data->opt_packname,
-                    'opt_packdesc' => $data->opt_packdesc,
-                    'opt_code' => $data->opt_code,
-                    'opt_name' => $data->opt_name,
-                    'opt_desc' => $data->opt_desc,
-                    'opt_flag' => $data->opt_flag,
-                    'opt_class' => $data->opt_class,
-                    'opt_start_date' => $data->opt_start_date,
-                    'opt_end_date' => $data->opt_end_date,
-                    'last_upd_user' => $data->last_upd_user,
+                    'goods_jan' => $data->goods_jan,
+                    'goods_name' => $data->goods_name,
+                    'goods_name2' => $data->goods_name2,
+                    'goods_model_id' => $data->goods_model_id,
+                    'goods_sim_type' => $data->goods_sim_type,
+                    'goods_sim_class' => $data->goods_sim_class,
+                    'goods_color' => $data->goods_color,
+                    'goods_size' => $data->goods_size,
+                    'goods_maker' => $data->goods_maker,
+                    'goods_decr' => $data->goods_decr,
+                    'goods_last_upd_id' => $data->goods_last_upd_id,
                     'last_upd_date' => $data->last_upd_date,
+                    'plan_name' => $modelGoodsPlan->getListPlan($data->goods_jan),
+                    'option_name' => $data->goods_last_upd_id,
                 ]
             ];
         } else {

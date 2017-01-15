@@ -24,3 +24,9 @@ Route::post('staff/login', 'StaffController@login');
 
 //option
 Route::get('option', 'OptionController@index');
+Route::get('option/detail/{optPackcode}/{optCode}', 'OptionController@detail');
+Route::post('option/delete', 'OptionController@delete');
+
+//product
+Route::get('product', 'ProductController@index');
+Route::get('product/detail/{goodsJan}', 'ProductController@detail');
