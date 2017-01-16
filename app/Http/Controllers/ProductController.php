@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Request;
 use App\Models\GoodsMst;
 use App\Models\GoodsPlan;
+use App\Models\GoodsOpt;
 
 class ProductController extends Controller
 {
@@ -42,6 +43,7 @@ class ProductController extends Controller
     public function detail($goodsJan){
         $goodsMst = new GoodsMst();
         $modelGoodsPlan = new GoodsPlan();
+        $modelGoodsOpt = new GoodsOpt();
         $reason = [];
         $data = $goodsMst->getDetai($goodsJan);
         if (count($data) > 0) {
@@ -61,7 +63,7 @@ class ProductController extends Controller
                     'goods_last_upd_id' => $data->goods_last_upd_id,
                     'last_upd_date' => $data->last_upd_date,
                     'plan_name' => $modelGoodsPlan->getListPlan($data->goods_jan),
-                    'option_name' => $data->goods_last_upd_id,
+                    'option_name' => $modelGoodsOpt->renderTextOption($data->goods_jan)
                 ]
             ];
         } else {
